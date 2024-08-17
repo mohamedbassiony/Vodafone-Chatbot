@@ -1,6 +1,8 @@
-# Vodafone-Chatbot
+# Vodafone-Chatbot with open-source models
 
 ## Project Overview
+
+![Image of testing chatbot](https://drive.google.com/file/d/1n7jaG7DjzkwRRTcoLxn44dGwukU3fuMu/view?usp=sharing)
 
 Vodafone Chatbot is a managerial-level simulation designed to streamline vodafone database interactions using Large Language Models (LLMs) and LangChain. This project leverages MySQL for data storage and retrieval, and utilizes LLMs to generate SQL queries based on user questions. The resulting data is then processed and, if it represents a time series, visualized using graphs to facilitate easy interpretation.
 
@@ -97,3 +99,9 @@ Set your environment variables in the `.env` file. Like `API_KEYS` value.
 ## Open-source models
 
 Create a private key for free and choose suitable open-source model as API from [here](https://console.groq.com/docs/models)
+
+## Run app.py in src directory using streamlit
+
+```bash
+$ streamlit run app.py
+```
