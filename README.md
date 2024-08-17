@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Vodafone Chatbot is a managerial-level simulation designed to streamline database interactions using Large Language Models (LLMs), Python and LangChain. This project leverages MySQL for data storage and retrieval, and utilizes LLMs to generate SQL queries based on user questions. The resulting data is then processed and, if it represents a time series, visualized using graphs to facilitate easy interpretation.
+Vodafone Chatbot is a managerial-level simulation designed to streamline vodafone database interactions using Large Language Models (LLMs) and LangChain. This project leverages MySQL for data storage and retrieval, and utilizes LLMs to generate SQL queries based on user questions. The resulting data is then processed and, if it represents a time series, visualized using graphs to facilitate easy interpretation.
 
 ![Project pipeline with langchain and LLM](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-0YaK8SHX-0w-lvZFDNCnegesg0tYdBMOgw&s)
 
@@ -92,3 +92,8 @@ $ cp .env.example .env
 ```
 
 Set your environment variables in the `.env` file. Like `API_KEYS` value.
+
+
+## Open-source models
+
+Create a private key for free and choose suitable open-source model as API from [here](https://console.groq.com/docs/models)
