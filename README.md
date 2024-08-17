@@ -6,6 +6,33 @@ Vodafone Chatbot is a managerial-level simulation designed to streamline databas
 
 ![Project pipeline with langchain and LLM](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-0YaK8SHX-0w-lvZFDNCnegesg0tYdBMOgw&s)
 
+
+
+## Download Test Database chinook
+First of all, download the [Chinook database](https://github.com/lerocha/chinook-database.git). This is a sample database that represents a digital media store, including tables for artists, albums, media tracks, invoices, and customers. We will use this database to test our chatbot.
+
+
+## Install MySQL
+
+1) Download MySQL From [Ofiicial site](https://dev.mysql.com/downloads/installer/)
+2) Also you cloud download MySQL Workbench From [here](https://dev.mysql.com/downloads/workbench/)
+
+
+## Connect chinook Database
+
+1) Go to your terminal and log in to MySQL using the following command:
+```bash
+$ mysql -u root -p
+```
+
+2) You will be prompted to enter your password. Once you are logged in, you can create a new database using the following commands:
+```bash
+$ CREATE DATABASE chinook;
+$ USE chinook;
+$ SOURCE chinook.sql;
+```
+
+
 ## Requirements
 
 - Python 3.8 or later 
@@ -45,7 +72,7 @@ $ python -m venv vodafone-chatbot
 $ .\vodafone-chatbot\Scripts\Activate.ps1
 ```
 
-### (Optional) Setup your command line for better readability
+### (Optional) Setup your command line for better readability if you using WSL
 ```bash
 export PS1=export PS1="\[\033[01;32m\]\u@\h:\w\n\[\033[00m\]\$ "
 ```
