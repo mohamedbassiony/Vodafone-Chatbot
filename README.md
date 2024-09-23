@@ -101,9 +101,28 @@ $ cp .env.example .env
 Set your environment variables in the `.env` file. Like `API_KEYS` value.
 
 
-## Open-source models
+## Get open-source models using groq
 
 Create a private key for free and choose suitable open-source model as API from [here](https://console.groq.com/docs/models)
+
+
+
+## Download your local LLM using Ollama
+
+### Download Ollama 
+
+You could download ollama from [here](https://ollama.com/download)
+
+### Download your suitable Model using Ollama run/pull and model's ID for example:
+
+```bash
+$ ollama pull llama3.1
+```
+### You could know your downloaded list using the following command
+
+```bash
+$ ollama list
+```
 
 ## Run app.py in src directory using streamlit
 
