@@ -4,6 +4,11 @@
 
 ![visual app](https://github.com/user-attachments/assets/9ddf0705-98d0-449d-87f4-0f62a7971412)
 
+
+![final prompt](https://github.com/user-attachments/assets/510cd972-741c-45a3-bacd-77cceec8e91a)
+
+
+
 Vodafone Chatbot is a managerial-level simulation designed to streamline Vodafone database interactions using Large Language Models (LLMs) and LangChain. This project leverages MySQL for data storage and retrieval and utilizes LLMs to generate SQL queries based on user questions. The resulting data is then processed and, if it represents a time series, visualized using graphs to facilitate easy interpretation.
 
 ![Project pipeline with langchain and LLM](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-0YaK8SHX-0w-lvZFDNCnegesg0tYdBMOgw&s)
