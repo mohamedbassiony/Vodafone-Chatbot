@@ -1,8 +1,10 @@
 langchain==0.2.14
 langchain-groq==0.1.9
 langchain-community==0.2.12
-streamlit==1.37.1
+streamlit>=1.37.1,<2.0.0
 mysql-connector-python==9.0.0
 python-dotenv==1.0.1
-pandas==2.2.2
+pandas>=1.5.3,<3.0.0
 pandasai==2.2.14
+psutil>=5.9.0
+pdoc3>=0.10.0
