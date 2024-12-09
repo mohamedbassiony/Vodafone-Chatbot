@@ -3,6 +3,7 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_community.utilities import SQLDatabase
+from langchain.sql_database import SQLDatabase
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.llms import Ollama
 from langchain_groq import ChatGroq
@@ -10,6 +11,7 @@ from pandasai.connectors import MySQLConnector
 from pandasai import SmartDataframe
 import streamlit as st
 from PIL import Image
+import pyodbc
 
 # Load environment variables from a .env file
 
@@ -20,14 +22,51 @@ load_dotenv()
 
 llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0)
 
-# model = Ollama(model="llama3")
+#llm = Ollama(model="llama3")
 
 
-# Initialize the database connection
 
-def init_database(user: str, password: str, host: str, port: str, database: str) -> SQLDatabase:
-    db_uri = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}"
+
+# Initialize the database connection using pyodbc for SQL Server LocalDB and Windows Authentication
+
+def init_database(
+        db_type: str = "MySQL",
+        user: str = None, 
+        password: str = None, 
+        host: str = "localhost", 
+        port: str = "3306", 
+        mysql_database: str = "Chinook", 
+        server: str = "BASSIONY", 
+        sqlserver_database: str = "Chatbot_DB",
+        driver: str = "ODBC+Driver+17+for+SQL+Server"
+        ) -> SQLDatabase:
+    """
+    Initialize a database connection with the given parameters.
+    
+    Args:
+        db_type (str): Type of database ('mysql' or 'sqlserver').
+        user (str): Username for the database.
+        password (str): Password for the database.
+        host (str): Host address of the database.
+        port (str): Port of the database.
+        database (str): Database name.
+        
+    
+    Returns:
+        SQLDatabase: An SQLDatabase object connected to the database.
+    """
+    if db_type.lower() == "mysql":
+        db_uri = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{mysql_database}"
+    elif db_type.lower() == "sqlserver":
+        db_uri = f"mssql+pyodbc://@{server}/{sqlserver_database}?driver={driver}"
+    else:
+        raise ValueError("Unsupported database type. Use 'mysql' or 'sqlserver'.")
+    
     return SQLDatabase.from_uri(db_uri)
+
+
+
+
 
 
 # Create a chain to process SQL queries
@@ -218,23 +257,45 @@ with st.sidebar:
     st.subheader("Settings")
     st.write("Connect Vodafone local database and start chatting.")
     
-    st.text_input("User", value="root", key="User")
-    st.text_input("Password", type="password", value="root123", key="Password")
-    st.text_input("Host", value="localhost", key="Host")
-    st.text_input("Port", value="3306", key="Port")
-    st.text_input("Database", value="Chinook", key="Database")
-    
+    db_type = st.selectbox("Database Type", ["MySQL", "SQLServer"], key="DB_Type")
+
+    if st.session_state["DB_Type"] == "MySQL":
+        st.text_input("User", value="root", key="User")
+        st.text_input("Password", type="password", value="root123", key="Password")
+        st.text_input("Host", value="localhost", key="Host")
+        st.text_input("Port", value="3306", key="Port")
+        st.text_input("Database", value="Chinook", key="MySQL_Database")
+    else:
+        st.text_input("Server", value="BASSIONY", key="Server")
+        st.text_input("Database", value="Chatbot_DB", key="SQLServer_Database")
+        st.selectbox("Driver", ["ODBC+Driver+17+for+SQL+Server", "ODBC+Driver+18+for+SQL+Server"], key="Driver")
+
+
     if st.button("Connect"):
-        with st.spinner("Connecting to database..."):
-            db = init_database(
-                st.session_state["User"],
-                st.session_state["Password"],
-                st.session_state["Host"],
-                st.session_state["Port"],
-                st.session_state["Database"]
-            )
-            st.session_state.db = db
-            st.success("Connected to database!")
+      with st.spinner("Connecting to database..."):
+          try:
+              if st.session_state["DB_Type"] == "MySQL":
+                db = init_database(
+                    st.session_state["DB_Type"],
+                    st.session_state["User"],
+                    st.session_state["Password"],
+                    st.session_state["Host"],
+                    st.session_state["Port"],
+                    st.session_state["MySQL_Database"],
+                )
+
+              else:
+                  db = init_database(
+                    st.session_state["DB_Type"],
+                    st.session_state["Server"],
+                    st.session_state["SQLServer_Database"],
+                    st.session_state["Driver"],
+                )
+
+              st.session_state.db = db
+              st.success("Connected to database!")
+          except Exception as e:
+              st.error(f"Connection failed: {e}")
 
 # Display chat history
 
@@ -321,4 +382,3 @@ if user_query is not None and user_query.strip() != "":
             st.session_state.chat_history.append(AIMessage(content=response))
 
 
-#what is the employees hiring data trend
